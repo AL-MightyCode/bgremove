@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Background Remover</title>
+    <link rel="stylesheet" href="../static/css/main.css">
+</head>
+<body>
+    <div class="container">
+        <h1>Background Remover</h1>
+        
+        <div class="upload-section">
+            <input type="file" id="imageInput" accept="image/*" class="file-input">
+            <button id="uploadBtn" class="btn">Choose Image</button>
+        </div>
+
+        <!-- Single preview container that will show up after image selection -->
+        <div class="image-preview" id="originalPreview" style="display: none;">
+            <h3>Original Image</h3>
+            <img id="originalImage" src="#" alt="Preview">
+            <button id="removeBackgroundBtn" class="btn">Remove Background</button>
+        </div>
+
+        <!-- Processed image container that will show up after processing -->
+        <div class="image-preview" id="processedPreview" style="display: none;">
+            <h3>Processed Image</h3>
+            <img id="processedImage" src="#" alt="Processed">
+            <div class="background-controls">
+                <label for="bgColor">Background Color:</label>
+                <select id="bgColor" class="color-select">
+                    <option value="">-- Choose Background Color --</option>
+                    <option style="background-color:red;" value="red">Red</option>
+                    <option style="background-color:green;" value="green">Green</option>
+                    <option style="background-color:black;" value="black">Black</option>
+                    <option style="background-color:blue;" value="blue">Blue</option>
+                    <option style="background-color:yellow;" value="yellow">Yellow</option>
+                    <option style="background-color:white;" value="white">White</option>
+                    <option style="background-color:#FFB6C1;" value="#FFB6C1">Light Pink</option>
+                    <option style="background-color:#F08080;" value="#F08080">Light Coral</option>
+                    <option style="background-color:#FFFACD;" value="#FFFACD">Lemon Chiffon</option>
+                    <option style="background-color:#AFEEEE;" value="#AFEEEE">Pale Turquoise</option>
+                    <option style="background-color:#B0E0E6;" value="#B0E0E6">Powder Blue</option>
+                    <option style="background-color:#20B2AA;" value="#20B2AA">Light Sea Green</option>
+                    <option style="background-color:#9370DB;" value="#9370DB">Medium Purple</option>
+                    <option style="background-color:#FAFAD2;" value="#FAFAD2">Light Goldenrod Yellow</option>
+                    <option style="background-color:#FFE4E1;" value="#FFE4E1">Misty Rose</option>
+                    <option style="background-color:#FFF0F5;" value="#FFF0F5">Lavender Blush</option>
+                    <option style="background-color:#F0F8FF;" value="#F0F8FF">Alice Blue</option>
+                    <option style="background-color:#F0FFF0;" value="#F0FFF0">Honeydew</option>
+                    <option style="background-color:#F5FFFA;" value="#F5FFFA">Mint Cream</option>
+                    <option style="background-color:#F0FFFF;" value="#F0FFFF">Azure</option>
+                    <option style="background-color:#E0FFFF;" value="#E0FFFF">Light Cyan</option>
+                    <option style="background-color:#F5F5DC;" value="#F5F5DC">Beige</option>
+                    <option style="background-color:#FFFFF0;" value="#FFFFF0">Ivory</option>
+                    <option style="background-color:#E6E6FA;" value="#E6E6FA">Lavender</option>
+                    <option style="background-color:#FFEFD5;" value="#FFEFD5">Papaya Whip</option>
+                    <option style="background-color:#FFEBCD;" value="#FFEBCD">Blanched Almond</option>
+                    <option style="background-color:#98FB98;" value="#98FB98">Pale Green</option>
+                    <option style="background-color:#FFFFE0;" value="#FFFFE0">Light Yellow</option>
+                    <option style="background-color:#D8BFD8;" value="#D8BFD8">Thistle</option>
+                    <option style="background-color:#B0C4DE;" value="#B0C4DE">Light Steel Blue</option>
+                </select>
+                <button id="downloadBtn" class="btn">Download Image</button>
+            </div>
+        </div>
+
+        <div class="social-links">
+            <a href="https://instagram.com" target="_blank">
+                <img src="../static/images/insta.jpg" alt="Instagram">
+            </a>
+            <a href="https://facebook.com" target="_blank">
+                <img src="../static/images/fb.png" alt="Facebook">
+            </a>
+        </div>
+    </div>
+
+    <script src="../static/js/main.js"></script>
+</body>
+</html> 
