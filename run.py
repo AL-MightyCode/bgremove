@@ -4,8 +4,9 @@ import os
 # Create the Flask application
 app = create_app()
 
+# Get port with a hardcoded default
+port = int(os.environ.get('PORT', 10000))
+print(f"Starting with port: {port}")  # Add debug print
+
 if __name__ == '__main__':
-    # Get port from environment variable or use default
-    port = int(os.environ.get('PORT', 8000))
-    # Run the app
     app.run(host='0.0.0.0', port=port, debug=False)
