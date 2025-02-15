@@ -5,6 +5,8 @@ import io
 import base64
 import sys
 import traceback
+import os
+import time
 
 main_bp = Blueprint('main', __name__)
 
@@ -30,27 +32,50 @@ def remove_background():
         # Print debug info
         print(f"Processing file: {file.filename}", file=sys.stderr)
         
-        # Read the image
-        input_image = Image.open(file.stream)
-        print(f"Image opened successfully: {input_image.size}", file=sys.stderr)
+        # Read the image with error handling
+        try:
+            input_image = Image.open(file.stream)
+            print(f"Image opened successfully: {input_image.size}", file=sys.stderr)
+        except Exception as e:
+            print(f"Error opening image: {str(e)}", file=sys.stderr)
+            return jsonify({'status': 'error', 'message': 'Invalid image file'}), 400
         
-        # Remove background
-        print("Removing background...", file=sys.stderr)
-        output_image = remove(input_image)
-        print("Background removed successfully", file=sys.stderr)
+        # Remove background with timeout and retry
+        max_retries = 3
+        retry_count = 0
+        while retry_count < max_retries:
+            try:
+                print(f"Attempt {retry_count + 1}: Removing background...", file=sys.stderr)
+                output_image = remove(input_image)
+                print("Background removed successfully", file=sys.stderr)
+                break
+            except Exception as e:
+                retry_count += 1
+                if retry_count == max_retries:
+                    print(f"Failed to remove background after {max_retries} attempts: {str(e)}", file=sys.stderr)
+                    return jsonify({'status': 'error', 'message': 'Failed to process image. Please try again.'}), 500
+                print(f"Attempt {retry_count} failed, retrying in 5 seconds...", file=sys.stderr)
+                time.sleep(5)
         
         # Convert to base64
-        print("Converting to base64...", file=sys.stderr)
-        buffered = io.BytesIO()
-        output_image.save(buffered, format="PNG")
-        img_str = base64.b64encode(buffered.getvalue()).decode()
-        print("Conversion to base64 complete", file=sys.stderr)
-        
-        return jsonify({
-            'status': 'success',
-            'image': img_str
-        })
-        
+        try:
+            print("Converting to base64...", file=sys.stderr)
+            buffered = io.BytesIO()
+            output_image.save(buffered, format="PNG")
+            img_str = base64.b64encode(buffered.getvalue()).decode()
+            print("Conversion to base64 complete", file=sys.stderr)
+            
+            return jsonify({
+                'status': 'success',
+                'image': img_str
+            })
+        except Exception as e:
+            print(f"Error in base64 conversion: {str(e)}", file=sys.stderr)
+            return jsonify({
+                'status': 'error',
+                'message': 'Error converting processed image'
+            }), 500
+            
     except Exception as e:
         print(f"Error in remove_background: {str(e)}", file=sys.stderr)
         print(f"Traceback: {''.join(traceback.format_tb(e.__traceback__))}", file=sys.stderr)
