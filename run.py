@@ -25,3 +25,6 @@ if __name__ == '__main__':
         
         # Run the app
         app.run(host='0.0.0.0', port=port)
+    except Exception as e:
+        app.logger.error(f"Error starting the application: {e}")
+        sys.exit(1)
